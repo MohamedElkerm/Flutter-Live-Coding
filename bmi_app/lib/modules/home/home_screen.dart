@@ -40,10 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  int equ(){
-    var res = weight.toInt() / pow(sliderRes.toInt()/100, 2);
+  int equ() {
+    var res = weight.toInt() / pow(sliderRes.toInt() / 100, 2);
     return res.toInt();
   }
+
   Widget calcButton() {
     return GestureDetector(
       onTap: () {
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>const ResultScreen(),
+            builder: (context) => const ResultScreen(),
           ),
         );
       },
@@ -79,12 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget weightAndAge() => Row(
         children: [
-          myCardWithLogic(
-            AppStrings.weight,
-          ),
-          myCardWithLogic(
-            AppStrings.age,
-          ),
+          myCardWithLogicForWeight(),
+          myCardWithLogicForAge(),
         ],
       );
   Widget maleAndFemale() => Row(
@@ -123,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    sliderRes.toString(),
+                    sliderRes.toStringAsFixed(2),
                     style: const TextStyle(
                       color: AppColors.myWhit,
                       fontSize: AppFontSize.fSize40,
@@ -194,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget myCardWithLogic(String myText) {
+  Widget myCardWithLogicForWeight() {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -207,15 +204,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                myText,
-                style: const TextStyle(
+              const Text(
+                "Weight",
+                style: TextStyle(
                   fontSize: AppFontSize.fSize24,
                   color: AppColors.myGrey,
                 ),
               ),
               Text(
-                myText == 'age' ? age.toString() : weight.toString(),
+                weight.toString(),
                 style: const TextStyle(
                   fontSize: AppFontSize.fSize40,
                   fontWeight: FontWeight.bold,
@@ -226,6 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   FloatingActionButton(
+                    heroTag: "IncreaseWeight",
                     mini: true,
                     backgroundColor: AppColors.myGrey,
                     foregroundColor: AppColors.myWhit,
@@ -234,16 +232,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        if (myText == 'weight') {
-                          weight = ++weight;
-                        }
-                        if (myText == 'age') {
-                          age = ++age;
-                        }
+                        weight = ++weight;
                       });
                     },
                   ),
                   FloatingActionButton(
+                    heroTag: "DecreaseWeight",
                     mini: true,
                     backgroundColor: AppColors.myGrey,
                     foregroundColor: AppColors.myWhit,
@@ -252,12 +246,75 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        if (myText == 'weight') {
-                          weight = --weight;
-                        }
-                        if (myText == 'age') {
-                          age = --age;
-                        }
+                        weight = --weight;
+                      });
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget myCardWithLogicForAge() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Container(
+          height: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            color: AppColors.cardColor,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Age",
+                style: TextStyle(
+                  fontSize: AppFontSize.fSize24,
+                  color: AppColors.myGrey,
+                ),
+              ),
+              Text(
+                age.toString(),
+                style: const TextStyle(
+                  fontSize: AppFontSize.fSize40,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.myWhit,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FloatingActionButton(
+                    heroTag: "IncreaseAge",
+                    mini: true,
+                    backgroundColor: AppColors.myGrey,
+                    foregroundColor: AppColors.myWhit,
+                    child: const Icon(
+                      Icons.add,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        age = ++age;
+                      });
+                    },
+                  ),
+                  FloatingActionButton(
+                    heroTag: "DecreaseAge",
+                    mini: true,
+                    backgroundColor: AppColors.myGrey,
+                    foregroundColor: AppColors.myWhit,
+                    child: const Icon(
+                      Icons.remove,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        age = --age;
                       });
                     },
                   ),
